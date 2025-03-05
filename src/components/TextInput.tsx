@@ -1,0 +1,104 @@
+import React, { useState } from "react";
+import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
+import { AlertCircle, CheckCircle } from "lucide-react";
+
+interface TextInputProps {
+  onTextSubmit?: (text: string) => void;
+  placeholder?: string;
+  maxLength?: number;
+  minLength?: number;
+}
+
+const TextInput = ({
+  onTextSubmit = () => {},
+  placeholder = "Paste or type your learning material here...",
+  maxLength = 5000,
+  minLength = 50,
+}: TextInputProps) => {
+  const [text, setText] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    setText(newText);
+    setError(null);
+    setSuccess(false);
+  };
+
+  const handleSubmit = () => {
+    if (text.length < minLength) {
+      setError(`Text must be at least ${minLength} characters long`);
+      return;
+    }
+
+    if (text.length > maxLength) {
+      setError(`Text cannot exceed ${maxLength} characters`);
+      return;
+    }
+
+    setSuccess(true);
+    onTextSubmit(text);
+  };
+
+  const characterCount = text.length;
+  const isOverLimit = characterCount > maxLength;
+  const isUnderLimit = characterCount < minLength && characterCount > 0;
+
+  return (
+    <div className="w-full bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <div className="mb-4">
+        <h3 className="text-lg font-medium mb-2">Text Input</h3>
+        <p className="text-gray-500 text-sm">
+          Paste or type your learning material below. We'll generate quiz
+          questions based on this content.
+        </p>
+      </div>
+
+      <Textarea
+        value={text}
+        onChange={handleTextChange}
+        placeholder={placeholder}
+        className={`min-h-[200px] mb-2 ${isOverLimit ? "border-red-500 focus-visible:ring-red-500" : ""} ${isUnderLimit ? "border-yellow-500 focus-visible:ring-yellow-500" : ""}`}
+      />
+
+      <div className="flex justify-between items-center mb-4">
+        <div className="text-sm">
+          <span
+            className={`font-medium ${isOverLimit ? "text-red-500" : isUnderLimit ? "text-yellow-500" : "text-gray-500"}`}
+          >
+            {characterCount}
+          </span>
+          <span className="text-gray-500"> / {maxLength} characters</span>
+        </div>
+
+        {error && (
+          <div className="flex items-center text-red-500 text-sm">
+            <AlertCircle className="h-4 w-4 mr-1" />
+            {error}
+          </div>
+        )}
+
+        {success && !error && (
+          <div className="flex items-center text-green-500 text-sm">
+            <CheckCircle className="h-4 w-4 mr-1" />
+            Content ready for quiz generation
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end">
+        <Button
+          onClick={handleSubmit}
+          disabled={characterCount === 0 || isOverLimit}
+          className="px-4 py-2"
+        >
+          Use This Text
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default TextInput;

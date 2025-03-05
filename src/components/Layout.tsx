@@ -39,7 +39,7 @@ const Layout = ({
           />
         )}
         <div
-          className={`${showSidebar ? "sm:ml-16 lg:ml-64" : ""} w-full ${showNavbar ? "pt-[70px]" : ""} transition-all duration-300`}
+          className={`w-full ${showNavbar ? "pt-[70px]" : ""} transition-all duration-300 ${showSidebar ? "md:ml-16 lg:ml-64" : ""}`}
         >
           <main className="min-h-[calc(100vh-70px-200px)]">
             <Outlet />

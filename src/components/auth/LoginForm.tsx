@@ -41,7 +41,7 @@ const LoginForm = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Navigate to home page after successful login
-      navigate("/");
+      navigate("/create");
     } catch (err) {
       setError("Invalid email or password. Please try again.");
     } finally {
@@ -133,7 +133,7 @@ const LoginForm = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Button variant="outline" type="button" className="w-full">
               Google
             </Button>

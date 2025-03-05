@@ -154,7 +154,7 @@ const TestPage = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       {!showResults ? (
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-2xl font-bold">React Fundamentals Quiz</h1>
@@ -233,7 +233,7 @@ const TestPage = () => {
           </div>
         </div>
       ) : (
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">Quiz Results</CardTitle>

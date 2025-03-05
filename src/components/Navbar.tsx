@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
@@ -105,12 +106,16 @@ const Navbar = ({
             </DropdownMenu>
           ) : (
             <>
-              <Button variant="ghost" className="hidden md:flex">
-                <LogIn className="mr-2 h-4 w-4" /> Log in
-              </Button>
-              <Button>
-                <UserPlus className="mr-2 h-4 w-4" /> Sign up
-              </Button>
+              <Link to="/login">
+                <Button variant="ghost" className="hidden md:flex">
+                  <LogIn className="mr-2 h-4 w-4" /> Log in
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button>
+                  <UserPlus className="mr-2 h-4 w-4" /> Sign up
+                </Button>
+              </Link>
             </>
           )}
 

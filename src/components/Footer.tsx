@@ -13,7 +13,7 @@ const Footer = ({ className = "" }: FooterProps) => {
   return (
     <footer className={cn("w-full bg-gray-100 py-8 px-4 md:px-8", className)}>
       <div className="container mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-4 sm:px-6 lg:px-8">
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-xl font-bold mb-4">Rollon</h3>

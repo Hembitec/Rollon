@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 
@@ -17,7 +18,7 @@ const Hero = ({
 }: HeroProps) => {
   return (
     <div className="w-full bg-gradient-to-b from-blue-50 to-white py-16 md:py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 px-4 sm:px-6 lg:px-8">
         {/* Left side - Text content */}
         <motion.div
           className="flex-1 space-y-6"
@@ -37,6 +38,16 @@ const Hero = ({
             >
               {ctaText}
             </Button>
+            <div className="mt-4 text-sm text-gray-600">
+              New to Rollon?{" "}
+              <Link to="/signup" className="text-primary hover:underline">
+                Create an account
+              </Link>{" "}
+              or{" "}
+              <Link to="/login" className="text-primary hover:underline">
+                sign in
+              </Link>
+            </div>
           </div>
         </motion.div>
 

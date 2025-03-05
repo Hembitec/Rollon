@@ -128,7 +128,7 @@ const SavedQuizzes = () => {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 px-4 sm:px-6 lg:px-8">
         <div>
           <h1 className="text-2xl font-bold mb-2">Saved Quizzes</h1>
           <p className="text-gray-500">Access and manage your saved quizzes</p>

@@ -55,7 +55,7 @@ const UrlInput = ({
     validateUrl(inputUrl);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateUrl(url)) {
       onUrlSubmit(url);

@@ -11,6 +11,7 @@ import {
   Menu,
   BookOpen as Logo,
   ChevronLeft,
+  Brain,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -59,6 +60,11 @@ const Sidebar = ({
       name: "Take Test",
       path: "/test",
       icon: <FileText className="h-5 w-5" />,
+    },
+    {
+      name: "AI Tutor",
+      path: "/ai-tutor",
+      icon: <Brain className="h-5 w-5" />,
     },
     { name: "Profile", path: "/profile", icon: <User className="h-5 w-5" /> },
   ];

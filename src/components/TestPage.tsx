@@ -28,61 +28,83 @@ const TestPage = () => {
   const [timeRemaining, setTimeRemaining] = useState(600); // 10 minutes in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(true);
 
-  // Mock questions data
-  const questions: Question[] = [
-    {
-      id: "q1",
-      text: "What is a React Hook?",
-      options: [
-        "A physical hook for your computer",
-        "A function that lets you use state and other React features without writing a class",
-        "A third-party library for React",
-        "A design pattern for CSS",
-      ],
-      correctAnswer:
-        "A function that lets you use state and other React features without writing a class",
-    },
-    {
-      id: "q2",
-      text: "Which of the following is NOT a built-in React Hook?",
-      options: ["useState", "useEffect", "useContext", "useHistory"],
-      correctAnswer: "useHistory",
-    },
-    {
-      id: "q3",
-      text: "What does JSX stand for?",
-      options: [
-        "JavaScript XML",
-        "JavaScript Extension",
-        "JavaScript Syntax",
-        "Java Syntax Extension",
-      ],
-      correctAnswer: "JavaScript XML",
-    },
-    {
-      id: "q4",
-      text: "Which lifecycle method is called after a component renders?",
-      options: [
-        "componentDidMount",
-        "componentWillMount",
-        "componentWillUpdate",
-        "componentWillUnmount",
-      ],
-      correctAnswer: "componentDidMount",
-    },
-    {
-      id: "q5",
-      text: "What is the virtual DOM in React?",
-      options: [
-        "A direct copy of the real DOM",
-        "A lightweight copy of the real DOM that React uses for performance optimization",
-        "A browser extension for React developers",
-        "A third-party library for DOM manipulation",
-      ],
-      correctAnswer:
-        "A lightweight copy of the real DOM that React uses for performance optimization",
-    },
-  ];
+  // Get questions from localStorage or use mock data
+  const getQuestions = (): Question[] => {
+    const savedQuiz = localStorage.getItem("generatedQuiz");
+    if (savedQuiz) {
+      try {
+        const parsedQuiz = JSON.parse(savedQuiz);
+        if (Array.isArray(parsedQuiz)) {
+          return parsedQuiz.map((q, index) => ({
+            id: `q${index + 1}`,
+            text: q.question,
+            options: q.options || ["True", "False"],
+            correctAnswer: q.correctAnswer,
+          }));
+        }
+      } catch (e) {
+        console.error("Error parsing saved quiz:", e);
+      }
+    }
+
+    // Fallback to mock data
+    return [
+      {
+        id: "q1",
+        text: "What is a React Hook?",
+        options: [
+          "A physical hook for your computer",
+          "A function that lets you use state and other React features without writing a class",
+          "A third-party library for React",
+          "A design pattern for CSS",
+        ],
+        correctAnswer:
+          "A function that lets you use state and other React features without writing a class",
+      },
+      {
+        id: "q2",
+        text: "Which of the following is NOT a built-in React Hook?",
+        options: ["useState", "useEffect", "useContext", "useHistory"],
+        correctAnswer: "useHistory",
+      },
+      {
+        id: "q3",
+        text: "What does JSX stand for?",
+        options: [
+          "JavaScript XML",
+          "JavaScript Extension",
+          "JavaScript Syntax",
+          "Java Syntax Extension",
+        ],
+        correctAnswer: "JavaScript XML",
+      },
+      {
+        id: "q4",
+        text: "Which lifecycle method is called after a component renders?",
+        options: [
+          "componentDidMount",
+          "componentWillMount",
+          "componentWillUpdate",
+          "componentWillUnmount",
+        ],
+        correctAnswer: "componentDidMount",
+      },
+      {
+        id: "q5",
+        text: "What is the virtual DOM in React?",
+        options: [
+          "A direct copy of the real DOM",
+          "A lightweight copy of the real DOM that React uses for performance optimization",
+          "A browser extension for React developers",
+          "A third-party library for DOM manipulation",
+        ],
+        correctAnswer:
+          "A lightweight copy of the real DOM that React uses for performance optimization",
+      },
+    ];
+  };
+
+  const questions = getQuestions();
 
   // Format time remaining as MM:SS
   const formatTime = (seconds: number) => {

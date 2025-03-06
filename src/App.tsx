@@ -20,6 +20,7 @@ import SignupPage from "./pages/SignupPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./components/ProfilePage";
+import AITutorPage from "./pages/AITutorPage";
 
 // Components
 import Layout from "./components/Layout";
@@ -38,6 +39,11 @@ function App() {
         setIsLoggedIn(true);
         const userData = data.session.user.user_metadata;
         setUserName(userData?.full_name || data.session.user.email || "User");
+
+        // Redirect to dashboard if on landing page
+        if (location.pathname === "/") {
+          navigate("/create");
+        }
       }
     };
     checkSession();
@@ -49,6 +55,9 @@ function App() {
           setIsLoggedIn(true);
           const userData = session.user.user_metadata;
           setUserName(userData?.full_name || session.user.email || "User");
+
+          // Redirect to dashboard on sign in
+          navigate("/create");
         } else if (event === "SIGNED_OUT") {
           setIsLoggedIn(false);
           setUserName("Guest User");
@@ -59,7 +68,7 @@ function App() {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate, location.pathname]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -157,6 +166,27 @@ function App() {
                     <h1 className="text-2xl font-bold mb-4">Please Login</h1>
                     <p className="mb-4">
                       You need to be logged in to view your profile.
+                    </p>
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="bg-primary text-white px-4 py-2 rounded-md"
+                    >
+                      Go to Login
+                    </button>
+                  </div>
+                )
+              }
+            />
+            <Route
+              path="ai-tutor"
+              element={
+                isLoggedIn ? (
+                  <AITutorPage />
+                ) : (
+                  <div className="container mx-auto py-8 px-4 text-center">
+                    <h1 className="text-2xl font-bold mb-4">Please Login</h1>
+                    <p className="mb-4">
+                      You need to be logged in to access the AI Tutor.
                     </p>
                     <button
                       onClick={() => navigate("/login")}

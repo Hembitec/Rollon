@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
+import { supabase } from "@/lib/supabase";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -28,6 +30,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -40,7 +43,7 @@ const ProfilePage = () => {
     setTheme(value);
   };
 
-  const handlePasswordChange = (e: React.FormEvent) => {
+  const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError(null);
     setPasswordSuccess(false);
@@ -57,14 +60,33 @@ const ProfilePage = () => {
 
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      // First verify the current password by trying to sign in
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: (await supabase.auth.getUser()).data.user?.email || "",
+        password: currentPassword,
+      });
+
+      if (signInError) {
+        throw new Error("Current password is incorrect");
+      }
+
+      // Update the password
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (updateError) throw updateError;
+
       setPasswordSuccess(true);
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-    }, 1000);
+    } catch (error: any) {
+      setPasswordError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -275,14 +297,18 @@ const ProfilePage = () => {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h4 className="font-medium">
-                            Two-Factor Authentication
-                          </h4>
+                          <h4 className="font-medium">Forgot your password?</h4>
                           <p className="text-sm text-muted-foreground">
-                            Add an extra layer of security to your account
+                            If you can't remember your current password, you can
+                            reset it
                           </p>
                         </div>
-                        <Switch id="2fa" />
+                        <Button
+                          variant="outline"
+                          onClick={() => navigate("/forgot-password")}
+                        >
+                          Reset Password
+                        </Button>
                       </div>
                     </div>
                   </CardContent>

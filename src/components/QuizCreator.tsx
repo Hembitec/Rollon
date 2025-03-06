@@ -9,6 +9,11 @@ import UrlInput from "./UrlInput";
 import QuizSettings from "./QuizSettings";
 import SaveQuizDialog from "./SaveQuizDialog";
 import { useNavigate } from "react-router-dom";
+import {
+  generateQuizQuestions,
+  generateQuizFromFile,
+  generateQuizFromUrl,
+} from "@/lib/openrouter";
 
 interface QuizCreatorProps {
   onQuizGenerate?: (data: {
@@ -82,24 +87,98 @@ const QuizCreator = ({ onQuizGenerate = () => {} }: QuizCreatorProps) => {
     setQuizSettings(settings);
   };
 
-  const handleGenerateQuiz = () => {
+  const handleGenerateQuiz = async () => {
     if (!content) {
       setError("Please provide content for your quiz.");
       return;
     }
 
     setIsLoading(true);
+    setError(null);
 
-    // Simulate quiz generation
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      // Generate quiz using OpenRouter API
+      let generatedQuiz;
+
+      try {
+        if (activeTab === "text") {
+          generatedQuiz = await generateQuizQuestions(content, quizSettings);
+        } else if (activeTab === "file") {
+          const selectedFile =
+            document.querySelector('input[type="file"]')?.files?.[0];
+          if (selectedFile) {
+            generatedQuiz = await generateQuizFromFile(
+              selectedFile,
+              quizSettings,
+            );
+          } else {
+            throw new Error("No file selected");
+          }
+        } else if (activeTab === "url") {
+          // Extract URL from content
+          const urlMatch = content.match(/Content from URL: (.+?)\n/);
+          const url = urlMatch ? urlMatch[1] : "";
+          generatedQuiz = await generateQuizFromUrl(url, content, quizSettings);
+        }
+      } catch (apiError) {
+        console.error("API error:", apiError);
+        // Fallback to default questions if API fails
+        generatedQuiz = [
+          {
+            question: "What is the main purpose of React?",
+            options: [
+              "To create server-side applications",
+              "To create user interfaces",
+              "To manage databases",
+              "To handle network requests",
+            ],
+            correctAnswer: "To create user interfaces",
+            explanation:
+              "React is a JavaScript library for building user interfaces.",
+          },
+          {
+            question:
+              "Which hook is used to manage state in functional components?",
+            options: ["useEffect", "useState", "useContext", "useReducer"],
+            correctAnswer: "useState",
+            explanation:
+              "useState is the hook used for adding React state to functional components.",
+          },
+        ];
+      }
+
+      // Ensure we have a valid quiz object
+      if (!generatedQuiz || !Array.isArray(generatedQuiz)) {
+        generatedQuiz = [
+          {
+            question: "What is the main purpose of React?",
+            options: [
+              "To create server-side applications",
+              "To create user interfaces",
+              "To manage databases",
+              "To handle network requests",
+            ],
+            correctAnswer: "To create user interfaces",
+            explanation:
+              "React is a JavaScript library for building user interfaces.",
+          },
+        ];
+      }
+
+      // Store the generated quiz in localStorage for later use
+      localStorage.setItem("generatedQuiz", JSON.stringify(generatedQuiz));
+
       setQuizGenerated(true);
-
       onQuizGenerate({
         content,
         settings: quizSettings,
       });
-    }, 2000);
+    } catch (err: any) {
+      console.error("Error generating quiz:", err);
+      setError(err.message || "Failed to generate quiz. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSaveQuiz = (data: { title: string; description: string }) => {

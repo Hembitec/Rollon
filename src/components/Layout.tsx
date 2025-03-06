@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
+import { useTheme } from "@/context/ThemeContext";
 
 interface LayoutProps {
   isLoggedIn?: boolean;
@@ -16,13 +17,14 @@ const Layout = ({
   userAvatar = "",
 }: LayoutProps) => {
   const location = useLocation();
+  const { isLandingPage } = useTheme();
   const isHomePage = location.pathname === "/";
   const showSidebar = isLoggedIn && !isHomePage;
   const showFooter = isHomePage;
   const showNavbar = !isLoggedIn || isHomePage;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#121212] dark:text-[#E0E0E0] transition-colors duration-200">
       {showNavbar && (
         <Navbar
           isLoggedIn={isLoggedIn}

@@ -63,11 +63,11 @@ const UrlInput = ({
   };
 
   return (
-    <Card className="w-full bg-white">
+    <Card className="w-full bg-white dark:bg-[#1E1E1E] transition-colors duration-200">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Globe className="h-5 w-5 text-blue-500" />
-          URL Input
+          <Globe className="h-5 w-5 text-blue-500 dark:text-blue-400" />
+          URL
         </CardTitle>
         <CardDescription>
           Enter a URL to extract content for your quiz. The content must be
@@ -137,7 +137,7 @@ const UrlInput = ({
               <Link2 className="h-4 w-4 mr-1 text-blue-500" />
               Content Preview
             </h4>
-            <div className="p-3 bg-gray-50 rounded-md text-sm max-h-32 overflow-y-auto">
+            <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md text-sm max-h-32 overflow-y-auto dark:text-gray-300">
               {previewContent}
             </div>
           </div>

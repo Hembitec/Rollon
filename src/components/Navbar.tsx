@@ -23,7 +23,7 @@ const Navbar = ({
   userAvatar = "",
 }: NavbarProps) => {
   return (
-    <header className="w-full h-[70px] bg-white border-b border-gray-200 fixed top-0 left-0 z-50 shadow-sm">
+    <header className="w-full h-[70px] bg-white dark:bg-[#121212] border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 z-50 shadow-sm transition-colors duration-200">
       <div className="container mx-auto h-full flex items-center justify-between px-4">
         {/* Logo */}
         <div className="flex items-center">
@@ -35,25 +35,25 @@ const Navbar = ({
         <nav className="hidden md:flex items-center space-x-6">
           <a
             href="#"
-            className="text-sm font-medium text-gray-700 hover:text-primary transition-colors"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             Home
           </a>
           <a
             href="#"
-            className="text-sm font-medium text-gray-700 hover:text-primary transition-colors"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             Features
           </a>
           <a
             href="#"
-            className="text-sm font-medium text-gray-700 hover:text-primary transition-colors"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             Pricing
           </a>
           <a
             href="#"
-            className="text-sm font-medium text-gray-700 hover:text-primary transition-colors"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             About
           </a>
@@ -83,7 +83,7 @@ const Navbar = ({
                 <div className="flex items-center justify-start gap-2 p-2">
                   <div className="flex flex-col space-y-1 leading-none">
                     <p className="font-medium">{userName}</p>
-                    <p className="w-[200px] truncate text-sm text-gray-500">
+                    <p className="w-[200px] truncate text-sm text-gray-500 dark:text-gray-400">
                       {userName.toLowerCase()}@example.com
                     </p>
                   </div>

@@ -47,10 +47,10 @@ const TextInput = ({
   const isUnderLimit = characterCount < minLength && characterCount > 0;
 
   return (
-    <div className="w-full bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div className="w-full bg-white dark:bg-[#1E1E1E] p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-200">
       <div className="mb-4">
-        <h3 className="text-lg font-medium mb-2">Text Input</h3>
-        <p className="text-gray-500 text-sm">
+        <h3 className="text-lg font-medium mb-2 dark:text-white">Text Input</h3>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
           Paste or type your learning material below. We'll generate quiz
           questions based on this content.
         </p>
@@ -60,7 +60,7 @@ const TextInput = ({
         value={text}
         onChange={handleTextChange}
         placeholder={placeholder}
-        className={`min-h-[200px] mb-2 ${isOverLimit ? "border-red-500 focus-visible:ring-red-500" : ""} ${isUnderLimit ? "border-yellow-500 focus-visible:ring-yellow-500" : ""}`}
+        className={`min-h-[200px] mb-2 dark:bg-[#2C2C2C] dark:text-gray-200 dark:border-gray-700 dark:placeholder:text-gray-500 ${isOverLimit ? "border-red-500 focus-visible:ring-red-500" : ""} ${isUnderLimit ? "border-yellow-500 focus-visible:ring-yellow-500" : ""}`}
       />
 
       <div className="flex justify-between items-center mb-4">

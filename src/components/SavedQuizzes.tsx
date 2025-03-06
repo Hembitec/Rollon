@@ -135,8 +135,8 @@ const SavedQuizzes = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="p-4 border-b border-gray-200 flex flex-col md:flex-row justify-between gap-4">
+      <div className="bg-white dark:bg-[#1E1E1E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-colors duration-200">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between gap-4">
           <Tabs
             defaultValue="all"
             value={activeTab}

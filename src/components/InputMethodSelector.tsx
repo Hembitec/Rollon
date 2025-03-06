@@ -16,7 +16,7 @@ const InputMethodSelector = ({
   };
 
   return (
-    <div className="w-full bg-white p-4 rounded-t-lg border-b border-gray-200">
+    <div className="w-full bg-white dark:bg-[#1E1E1E] p-4 rounded-t-lg border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
       <Tabs
         defaultValue={activeTab}
         onValueChange={handleTabChange}
@@ -33,11 +33,11 @@ const InputMethodSelector = ({
           </TabsTrigger>
           <TabsTrigger value="url" className="flex items-center gap-2">
             <Link className="h-4 w-4" />
-            <span>URL Input</span>
+            <span>URL</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <p className="text-sm text-gray-500 mt-2">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
         Select an input method to create your quiz
       </p>
     </div>

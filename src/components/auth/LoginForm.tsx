@@ -51,13 +51,13 @@ const LoginForm = () => {
 
   return (
     <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="space-y-1">
+      <CardHeader className="space-y-1 pb-2">
         <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
         <CardDescription>
           Enter your email and password to access your account
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="py-2">
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
@@ -122,7 +122,7 @@ const LoginForm = () => {
             )}
           </Button>
 
-          <div className="relative my-4">
+          <div className="relative my-2">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200"></div>
             </div>
@@ -133,7 +133,7 @@ const LoginForm = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <Button variant="outline" type="button" className="w-full">
               Google
             </Button>

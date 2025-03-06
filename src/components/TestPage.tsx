@@ -154,15 +154,15 @@ const TestPage = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       {!showResults ? (
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 dark:text-[#E0E0E0]">
           <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-2xl font-bold">React Fundamentals Quiz</h1>
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-[#B0B0B0]">
                 Test your knowledge of React core concepts
               </p>
             </div>
-            <div className="flex items-center bg-amber-50 text-amber-800 px-3 py-2 rounded-md">
+            <div className="flex items-center bg-amber-50 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 px-3 py-2 rounded-md">
               <Clock className="h-5 w-5 mr-2" />
               <span className="font-medium">{formatTime(timeRemaining)}</span>
             </div>
@@ -178,7 +178,7 @@ const TestPage = () => {
             <Progress value={progressPercentage} className="h-2" />
           </div>
 
-          <Card className="mb-6">
+          <Card className="mb-6 dark:bg-[#1E1E1E] dark:border-gray-700 transition-colors duration-200">
             <CardHeader>
               <CardTitle className="text-xl">{currentQuestion.text}</CardTitle>
             </CardHeader>
@@ -233,8 +233,8 @@ const TestPage = () => {
           </div>
         </div>
       ) : (
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <Card>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 dark:text-[#E0E0E0]">
+          <Card className="dark:bg-[#1E1E1E] dark:border-gray-700 transition-colors duration-200">
             <CardHeader>
               <CardTitle className="text-2xl">Quiz Results</CardTitle>
             </CardHeader>
@@ -248,7 +248,7 @@ const TestPage = () => {
                 <h3 className="text-xl font-semibold mb-1">
                   {results.score >= 70 ? "Great job!" : "Keep practicing!"}
                 </h3>
-                <p className="text-gray-500">
+                <p className="text-gray-500 dark:text-[#B0B0B0]">
                   You answered {results.correctAnswers} out of{" "}
                   {results.totalQuestions} questions correctly
                 </p>
@@ -261,14 +261,14 @@ const TestPage = () => {
                   return (
                     <div
                       key={question.id}
-                      className={`p-4 rounded-lg ${isCorrect ? "bg-green-50" : "bg-red-50"}`}
+                      className={`p-4 rounded-lg ${isCorrect ? "bg-green-50 dark:bg-green-900/20" : "bg-red-50 dark:bg-red-900/20"}`}
                     >
                       <div className="flex items-start">
                         <div className="mr-3 mt-1">
                           {isCorrect ? (
-                            <CheckCircle2 className="h-5 w-5 text-green-600" />
+                            <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
                           ) : (
-                            <XCircle className="h-5 w-5 text-red-600" />
+                            <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
                           )}
                         </div>
                         <div>
@@ -281,7 +281,7 @@ const TestPage = () => {
                               {selectedAnswers[question.id] || "Not answered"}
                             </p>
                             {!isCorrect && (
-                              <p className="text-green-700">
+                              <p className="text-green-700 dark:text-green-400">
                                 <span className="font-medium">
                                   Correct answer:{" "}
                                 </span>

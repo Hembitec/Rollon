@@ -61,8 +61,8 @@ const QuizSettings = ({
   };
 
   return (
-    <div className="w-full p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-      <h3 className="text-lg font-semibold mb-4 flex items-center">
+    <div className="w-full p-6 bg-white dark:bg-[#1E1E1E] rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 transition-colors duration-200">
+      <h3 className="text-lg font-semibold mb-4 flex items-center dark:text-white">
         <span>Quiz Settings</span>
         <HelpCircle className="ml-2 h-4 w-4 text-gray-400" />
       </h3>
@@ -72,7 +72,9 @@ const QuizSettings = ({
         <div className="space-y-3">
           <div className="flex items-center">
             <Brain className="h-5 w-5 text-blue-500 mr-2" />
-            <h4 className="font-medium text-sm">Difficulty Level</h4>
+            <h4 className="font-medium text-sm dark:text-gray-200">
+              Difficulty Level
+            </h4>
           </div>
           <RadioGroup
             value={selectedDifficulty}
@@ -81,19 +83,28 @@ const QuizSettings = ({
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="easy" id="easy" />
-              <label htmlFor="easy" className="text-sm cursor-pointer">
+              <label
+                htmlFor="easy"
+                className="text-sm cursor-pointer dark:text-gray-300"
+              >
                 Easy
               </label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="medium" id="medium" />
-              <label htmlFor="medium" className="text-sm cursor-pointer">
+              <label
+                htmlFor="medium"
+                className="text-sm cursor-pointer dark:text-gray-300"
+              >
                 Medium
               </label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="hard" id="hard" />
-              <label htmlFor="hard" className="text-sm cursor-pointer">
+              <label
+                htmlFor="hard"
+                className="text-sm cursor-pointer dark:text-gray-300"
+              >
                 Hard
               </label>
             </div>
@@ -104,7 +115,9 @@ const QuizSettings = ({
         <div className="space-y-3">
           <div className="flex items-center">
             <HelpCircle className="h-5 w-5 text-purple-500 mr-2" />
-            <h4 className="font-medium text-sm">Question Format</h4>
+            <h4 className="font-medium text-sm dark:text-gray-200">
+              Question Format
+            </h4>
           </div>
           <Select value={selectedFormat} onValueChange={handleFormatChange}>
             <SelectTrigger className="w-full">
@@ -122,7 +135,9 @@ const QuizSettings = ({
         <div className="space-y-3">
           <div className="flex items-center">
             <Clock className="h-5 w-5 text-green-500 mr-2" />
-            <h4 className="font-medium text-sm">Quiz Length</h4>
+            <h4 className="font-medium text-sm dark:text-gray-200">
+              Quiz Length
+            </h4>
           </div>
           <div className="space-y-4">
             <Slider
@@ -132,7 +147,7 @@ const QuizSettings = ({
               max={30}
               step={5}
             />
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
               <span>5 questions</span>
               <span>{selectedLength} questions</span>
               <span>30 questions</span>

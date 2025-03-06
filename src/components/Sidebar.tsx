@@ -74,25 +74,25 @@ const Sidebar = ({
 
   return (
     <>
-      {/* Mobile menu button - always visible on mobile */}
+      {/* Mobile menu button - only visible when sidebar is collapsed */}
       <button
         onClick={toggleSidebar}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md hover:bg-gray-100 transition-colors"
+        className={`md:hidden fixed top-0 left-0 z-50 p-2 h-[70px] flex items-center justify-center bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${!collapsed ? "hidden" : ""}`}
         aria-label="Toggle sidebar"
       >
-        <Menu className="h-5 w-5 text-gray-700" />
+        <Menu className="h-5 w-5 text-gray-700 dark:text-gray-300" />
       </button>
 
       <div
         className={cn(
-          "bg-white text-gray-800 h-screen fixed top-0 left-0 z-40 border-r border-gray-200 transition-all duration-300",
+          "bg-white dark:bg-[#121212] text-gray-800 dark:text-gray-200 h-screen fixed top-0 left-0 z-40 border-r border-gray-200 dark:border-gray-700 transition-all duration-300",
           collapsed
             ? "-translate-x-full md:translate-x-0 md:w-16"
             : "w-64 translate-x-0",
           className,
         )}
       >
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             {!collapsed && (
               <div className="flex items-center">
@@ -149,7 +149,7 @@ const Sidebar = ({
           </nav>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
           {!collapsed && (
             <div className="flex items-center gap-3 py-2 mb-4">
               <Avatar>

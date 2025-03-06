@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import routes from "tempo-routes";
+import { ThemeProvider } from "./context/ThemeContext";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -15,6 +16,7 @@ import SavedQuizzesPage from "./pages/SavedQuizzesPage";
 import TestPage from "./pages/TestPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ProfilePage from "./components/ProfilePage";
 
 // Components
 import Layout from "./components/Layout";
@@ -57,7 +59,7 @@ function App() {
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <>
+      <ThemeProvider>
         <Routes>
           {/* Auth routes */}
           <Route path="/login" element={<LoginPage />} />
@@ -136,16 +138,7 @@ function App() {
               path="profile"
               element={
                 isLoggedIn ? (
-                  <div className="container mx-auto py-8 px-4">
-                    <h1 className="text-2xl font-bold mb-4">Profile Page</h1>
-                    <p className="mb-4">User profile content will go here.</p>
-                    <button
-                      onClick={handleLogout}
-                      className="bg-red-500 text-white px-4 py-2 rounded-md"
-                    >
-                      Logout
-                    </button>
-                  </div>
+                  <ProfilePage />
                 ) : (
                   <div className="container mx-auto py-8 px-4 text-center">
                     <h1 className="text-2xl font-bold mb-4">Please Login</h1>
@@ -165,7 +158,7 @@ function App() {
           </Route>
         </Routes>
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
-      </>
+      </ThemeProvider>
     </Suspense>
   );
 }

@@ -16,13 +16,13 @@ const InputMethodSelector = ({
   };
 
   return (
-    <div className="w-full bg-white dark:bg-[#1E1E1E] p-4 rounded-t-lg border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
+    <div className="w-full bg-white dark:bg-[#1E1E1E] p-3 rounded-t-lg border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
       <Tabs
         defaultValue={activeTab}
         onValueChange={handleTabChange}
         className="w-full"
       >
-        <TabsList className="w-full flex justify-start mb-2">
+        <TabsList className="w-full flex justify-center mb-2">
           <TabsTrigger value="text" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
             <span>Text Input</span>
@@ -37,7 +37,7 @@ const InputMethodSelector = ({
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
         Select an input method to create your quiz
       </p>
     </div>

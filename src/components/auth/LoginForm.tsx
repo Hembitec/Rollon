@@ -29,21 +29,17 @@ const LoginForm = () => {
     setIsLoading(true);
 
     try {
-      // In a real implementation, this would use Supabase or another auth provider
-      // const { data, error } = await supabase.auth.signInWithPassword({
-      //   email,
-      //   password,
-      // });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      // if (error) throw error;
-
-      // Simulate successful login
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (error) throw error;
 
       // Navigate to home page after successful login
       navigate("/create");
-    } catch (err) {
-      setError("Invalid email or password. Please try again.");
+    } catch (err: any) {
+      setError(err.message || "Invalid email or password. Please try again.");
     } finally {
       setIsLoading(false);
     }

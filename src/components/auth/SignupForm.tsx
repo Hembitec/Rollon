@@ -44,28 +44,27 @@ const SignupForm = () => {
     setIsLoading(true);
 
     try {
-      // In a real implementation, this would use Supabase or another auth provider
-      // const { data, error } = await supabase.auth.signUp({
-      //   email,
-      //   password,
-      //   options: {
-      //     data: {
-      //       name,
-      //     },
-      //   },
-      // });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          },
+        },
+      });
 
-      // if (error) throw error;
-
-      // Simulate successful signup
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (error) throw error;
 
       // Navigate to login page after successful signup
       navigate("/login", {
-        state: { message: "Account created successfully. Please sign in." },
+        state: {
+          message:
+            "Account created successfully. Please check your email to confirm your account.",
+        },
       });
-    } catch (err) {
-      setError("Failed to create account. Please try again.");
+    } catch (err: any) {
+      setError(err.message || "Failed to create account. Please try again.");
     } finally {
       setIsLoading(false);
     }

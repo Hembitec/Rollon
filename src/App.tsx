@@ -6,6 +6,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 import routes from "tempo-routes";
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -16,46 +17,56 @@ import SavedQuizzesPage from "./pages/SavedQuizzesPage";
 import TestPage from "./pages/TestPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./components/ProfilePage";
 
 // Components
 import Layout from "./components/Layout";
 
 function App() {
-  // Mock authentication state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("Guest User");
   const navigate = useNavigate();
   const location = useLocation();
 
-  // For demo purposes, let's add a login/logout function
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    setUserName("John Doe");
-  };
+  // Check for existing session on app load
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        setIsLoggedIn(true);
+        const userData = data.session.user.user_metadata;
+        setUserName(userData?.full_name || data.session.user.email || "User");
+      }
+    };
+    checkSession();
 
-  const handleLogout = () => {
+    // Subscribe to auth changes
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === "SIGNED_IN" && session) {
+          setIsLoggedIn(true);
+          const userData = session.user.user_metadata;
+          setUserName(userData?.full_name || session.user.email || "User");
+        } else if (event === "SIGNED_OUT") {
+          setIsLoggedIn(false);
+          setUserName("Guest User");
+        }
+      },
+    );
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     setIsLoggedIn(false);
     setUserName("Guest User");
     navigate("/");
   };
-
-  // Simulate login from login page
-  useEffect(() => {
-    if (location.pathname === "/login") {
-      const loginButton = document.querySelector('button[type="submit"]');
-      if (loginButton) {
-        const originalOnClick = loginButton.onclick;
-        loginButton.onclick = (e) => {
-          if (originalOnClick) originalOnClick.call(loginButton, e);
-          setTimeout(() => {
-            handleLogin();
-            navigate("/create");
-          }, 1000);
-        };
-      }
-    }
-  }, [location.pathname, navigate]);
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
@@ -64,6 +75,8 @@ function App() {
           {/* Auth routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
           {/* Main app routes with layout */}
           <Route

@@ -63,8 +63,8 @@ const UrlInput = ({
   };
 
   return (
-    <Card className="w-full bg-white dark:bg-[#1E1E1E] transition-colors duration-200">
-      <CardHeader>
+    <Card className="w-full bg-white dark:bg-[#1E1E1E] transition-colors duration-200 shadow-sm">
+      <CardHeader className="pb-2 pt-4 px-4">
         <CardTitle className="flex items-center gap-2">
           <Globe className="h-5 w-5 text-blue-500 dark:text-blue-400" />
           URL
@@ -74,7 +74,7 @@ const UrlInput = ({
           publicly accessible.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 py-2">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">
             <div className="flex">
@@ -143,7 +143,7 @@ const UrlInput = ({
           </div>
         )}
       </CardContent>
-      <CardFooter className="text-xs text-gray-500">
+      <CardFooter className="text-xs text-gray-500 px-4 py-3">
         <p>
           Supported content: Articles, blog posts, and other text-based web
           pages.

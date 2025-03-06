@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import {
   BookOpen,
@@ -62,10 +63,9 @@ const Sidebar = ({
     { name: "Profile", path: "/profile", icon: <User className="h-5 w-5" /> },
   ];
 
-  const handleLogout = () => {
-    // This would be implemented to handle logout
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     navigate("/");
-    window.location.reload();
   };
 
   const toggleSidebar = () => {

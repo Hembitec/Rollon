@@ -121,8 +121,8 @@ const QuizCreator = ({ onQuizGenerate = () => {} }: QuizCreatorProps) => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-white dark:bg-[#121212] rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-200">
-      <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-[#1a1a2e] dark:to-[#16213e] transition-colors duration-200">
+    <div className="w-full max-w-4xl mx-auto bg-white dark:bg-[#121212] rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-200">
+      <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-[#1a1a2e] dark:to-[#16213e] transition-colors duration-200">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
           Create Your Quiz
         </h2>
@@ -131,7 +131,7 @@ const QuizCreator = ({ onQuizGenerate = () => {} }: QuizCreatorProps) => {
         </p>
       </div>
 
-      <div className="p-6">
+      <div className="p-4">
         {!quizGenerated ? (
           <>
             <InputMethodSelector

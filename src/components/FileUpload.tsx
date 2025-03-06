@@ -110,11 +110,11 @@ const FileUpload = ({
   };
 
   return (
-    <div className="w-full bg-white dark:bg-[#1E1E1E] p-6 rounded-lg shadow-sm transition-colors duration-200">
+    <div className="w-full bg-white dark:bg-[#1E1E1E] p-4 rounded-lg shadow-sm transition-colors duration-200">
       {!selectedFile ? (
         <div
           className={cn(
-            "border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center cursor-pointer transition-colors",
+            "border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors",
             dragActive
               ? "border-primary bg-primary/5 dark:bg-primary/10"
               : "border-gray-300 hover:border-primary/50 dark:border-gray-600 dark:hover:border-primary/50",
@@ -125,8 +125,8 @@ const FileUpload = ({
           onDrop={handleDrop}
           onClick={() => document.getElementById("file-input")?.click()}
         >
-          <Upload className="h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" />
-          <h3 className="text-lg font-medium mb-2 dark:text-white">
+          <Upload className="h-10 w-10 text-gray-400 dark:text-gray-500 mb-3" />
+          <h3 className="text-base font-medium mb-1 dark:text-white">
             Drag & Drop your file here
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 text-center">

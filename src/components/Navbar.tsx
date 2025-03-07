@@ -34,14 +34,20 @@ const Navbar = ({
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a
-            href="#"
+          <Link
+            to="/"
             className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             Home
-          </a>
+          </Link>
+          <Link
+            to="/about"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
+          >
+            About
+          </Link>
           <a
-            href="#"
+            href="#features"
             className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             Features
@@ -51,12 +57,6 @@ const Navbar = ({
             className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             Pricing
-          </a>
-          <a
-            href="#"
-            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
-          >
-            About
           </a>
         </nav>
 

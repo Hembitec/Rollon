@@ -22,6 +22,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./components/ProfilePage";
 import AITutorPage from "./pages/AITutorPage";
 import ChatPDFPage from "./pages/ChatPDFPage";
+import AboutPage from "./pages/AboutPage";
 
 // Components
 import Layout from "./components/Layout";
@@ -94,6 +95,7 @@ function App() {
             element={<Layout isLoggedIn={isLoggedIn} userName={userName} />}
           >
             <Route index element={<HomePage />} />
+            <Route path="about" element={<AboutPage />} />
             <Route
               path="create"
               element={

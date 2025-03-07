@@ -21,6 +21,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./components/ProfilePage";
 import AITutorPage from "./pages/AITutorPage";
+import ChatPDFPage from "./pages/ChatPDFPage";
 
 // Components
 import Layout from "./components/Layout";
@@ -187,6 +188,28 @@ function App() {
                     <h1 className="text-2xl font-bold mb-4">Please Login</h1>
                     <p className="mb-4">
                       You need to be logged in to access the AI Tutor.
+                    </p>
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="bg-primary text-white px-4 py-2 rounded-md"
+                    >
+                      Go to Login
+                    </button>
+                  </div>
+                )
+              }
+            />
+            <Route
+              path="chat-pdf"
+              element={
+                isLoggedIn ? (
+                  <ChatPDFPage />
+                ) : (
+                  <div className="container mx-auto py-8 px-4 text-center">
+                    <h1 className="text-2xl font-bold mb-4">Please Login</h1>
+                    <p className="mb-4">
+                      You need to be logged in to access the Chat with PDF
+                      feature.
                     </p>
                     <button
                       onClick={() => navigate("/login")}

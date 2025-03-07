@@ -132,7 +132,7 @@ const AITutor = () => {
           assignments, create study materials, or chat with your documents.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Assignment Solver Card */}
           <Card className="bg-white dark:bg-[#1E1E1E] hover:shadow-md transition-shadow">
             <CardHeader className="pb-4">
@@ -354,118 +354,6 @@ const AITutor = () => {
                       ) : (
                         <>Generate Material</>
                       )}
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </CardFooter>
-          </Card>
-
-          {/* Chat with PDF Card */}
-          <Card className="bg-white dark:bg-[#1E1E1E] hover:shadow-md transition-shadow">
-            <CardHeader className="pb-4">
-              <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
-                <FileText className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <CardTitle>Chat with PDF</CardTitle>
-              <CardDescription>
-                Have conversations with your documents
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-500 dark:text-gray-400">
-              Upload a PDF and ask questions about its content. Get instant,
-              accurate answers based on the document.
-            </CardContent>
-            <CardFooter>
-              <Dialog
-                open={activeModal === "chat"}
-                onOpenChange={(open) => !open && closeModal()}
-              >
-                <DialogTrigger asChild>
-                  <Button
-                    onClick={() => setActiveModal("chat")}
-                    className="w-full"
-                  >
-                    Start Chatting
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px]">
-                  <DialogHeader>
-                    <DialogTitle>Chat with PDF</DialogTitle>
-                    <DialogDescription>
-                      Upload a PDF and ask questions about its content
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  {!pdfFile ? (
-                    <div className="mt-4">
-                      <FileUpload
-                        onFileSelect={handleFileSelect}
-                        acceptedFileTypes={[".pdf"]}
-                      />
-                    </div>
-                  ) : (
-                    <div className="mt-4 space-y-4">
-                      <div className="p-2 bg-primary/10 rounded-md flex items-center">
-                        <FileText className="h-5 w-5 text-primary mr-2" />
-                        <span className="text-sm font-medium">
-                          {pdfFile.name}
-                        </span>
-                      </div>
-
-                      <div className="border rounded-md p-4 h-[300px] overflow-y-auto">
-                        {chatHistory.length === 0 ? (
-                          <div className="h-full flex flex-col items-center justify-center text-center text-gray-500">
-                            <MessageSquare className="h-8 w-8 mb-2 opacity-50" />
-                            <p>Ask a question about your PDF document</p>
-                          </div>
-                        ) : (
-                          <div className="space-y-4">
-                            {chatHistory.map((msg, index) => (
-                              <div
-                                key={index}
-                                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                              >
-                                <div
-                                  className={`max-w-[80%] rounded-lg px-4 py-2 ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
-                                >
-                                  {msg.content}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex gap-2">
-                        <Input
-                          placeholder="Ask a question about the document..."
-                          value={chatMessage}
-                          onChange={(e) => setChatMessage(e.target.value)}
-                          onKeyDown={(e) =>
-                            e.key === "Enter" &&
-                            !isLoading &&
-                            chatMessage &&
-                            handleChatWithPDF()
-                          }
-                        />
-                        <Button
-                          onClick={handleChatWithPDF}
-                          disabled={isLoading || !chatMessage}
-                        >
-                          {isLoading ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <MessageSquare className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-
-                  <DialogFooter className="mt-4">
-                    <Button variant="outline" onClick={closeModal}>
-                      Close
                     </Button>
                   </DialogFooter>
                 </DialogContent>

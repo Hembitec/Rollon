@@ -4,35 +4,37 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 20% 98%; /* #F9FAFB Soft White */
+    --foreground: 215 30% 16%; /* #1F2937 Deep Gray */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%; /* #FFFFFF Pure White */
+    --card-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%; /* #FFFFFF Pure White */
+    --popover-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 213 67% 59%; /* #4A90E2 Bright Blue */
+    --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 38 92% 50%; /* #F59E0B Golden Yellow */
+    --secondary-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 14% 91%; /* #E5E7EB */
+    --muted-foreground: 220 9% 46%; /* #6B7280 Dim Gray */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 220 14% 91%; /* #E5E7EB */
+    --accent-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%; /* #EF4444 Red */
+    --destructive-foreground: 0 0% 100%; /* White */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 91%; /* #E5E7EB */
+    --input: 220 14% 91%; /* #E5E7EB */
+    --ring: 213 67% 59%; /* #4A90E2 Bright Blue */
 
     --radius: 0.5rem;
+
+    --success: 158 64% 40%; /* #10B981 Green */
   }
 
   .dark {

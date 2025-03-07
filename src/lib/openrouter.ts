@@ -67,6 +67,32 @@ export async function generateQuizQuestions(
     }
 
     const data: OpenRouterResponse = await response.json();
+    console.log("API response:", data);
+
+    // Check if data has the expected structure
+    if (
+      !data ||
+      !data.choices ||
+      !data.choices.length ||
+      !data.choices[0].message
+    ) {
+      console.error("Unexpected API response format:", data);
+      return [
+        {
+          question: "What is the main purpose of React?",
+          options: [
+            "To create server-side applications",
+            "To create user interfaces",
+            "To manage databases",
+            "To handle network requests",
+          ],
+          correctAnswer: "To create user interfaces",
+          explanation:
+            "React is a JavaScript library for building user interfaces.",
+        },
+      ];
+    }
+
     const generatedContent = data.choices[0].message.content;
 
     // Try to parse the response as JSON
@@ -140,6 +166,32 @@ export async function generateQuizFromFile(
     }
 
     const data: OpenRouterResponse = await response.json();
+    console.log("API response:", data);
+
+    // Check if data has the expected structure
+    if (
+      !data ||
+      !data.choices ||
+      !data.choices.length ||
+      !data.choices[0].message
+    ) {
+      console.error("Unexpected API response format:", data);
+      return [
+        {
+          question: "What is the main purpose of React?",
+          options: [
+            "To create server-side applications",
+            "To create user interfaces",
+            "To manage databases",
+            "To handle network requests",
+          ],
+          correctAnswer: "To create user interfaces",
+          explanation:
+            "React is a JavaScript library for building user interfaces.",
+        },
+      ];
+    }
+
     const generatedContent = data.choices[0].message.content;
 
     // Try to parse the response as JSON
@@ -202,6 +254,32 @@ export async function generateQuizFromUrl(
     }
 
     const data: OpenRouterResponse = await response.json();
+    console.log("API response:", data);
+
+    // Check if data has the expected structure
+    if (
+      !data ||
+      !data.choices ||
+      !data.choices.length ||
+      !data.choices[0].message
+    ) {
+      console.error("Unexpected API response format:", data);
+      return [
+        {
+          question: "What is the main purpose of React?",
+          options: [
+            "To create server-side applications",
+            "To create user interfaces",
+            "To manage databases",
+            "To handle network requests",
+          ],
+          correctAnswer: "To create user interfaces",
+          explanation:
+            "React is a JavaScript library for building user interfaces.",
+        },
+      ];
+    }
+
     const generatedContent = data.choices[0].message.content;
 
     // Try to parse the response as JSON

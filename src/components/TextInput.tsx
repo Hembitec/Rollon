@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { AlertCircle, CheckCircle } from "lucide-react";
+import { AlertCircle, CheckCircle, FileText, BookOpen } from "lucide-react";
 
 interface TextInputProps {
   onTextSubmit?: (text: string) => void;
@@ -12,7 +12,7 @@ interface TextInputProps {
 
 const TextInput = ({
   onTextSubmit = () => {},
-  placeholder = "Paste or type your learning material here...",
+  placeholder = "Enter a topic (e.g., 'React Hooks') or paste your learning material here...",
   maxLength = Infinity,
   minLength = 50,
 }: TextInputProps) => {
@@ -28,9 +28,14 @@ const TextInput = ({
   };
 
   const handleSubmit = () => {
-    if (text.length < minLength) {
-      setError(`Text must be at least ${minLength} characters long`);
-      return;
+    // If text is very short (like a topic name), don't enforce minimum length
+    if (text.length < minLength && text.length > 5) {
+      // Check if it looks like a topic rather than content
+      const wordCount = text.split(/\s+/).length;
+      if (wordCount > 3) {
+        setError(`Text must be at least ${minLength} characters long`);
+        return;
+      }
     }
 
     if (text.length > maxLength) {
@@ -49,12 +54,13 @@ const TextInput = ({
   return (
     <div className="w-full bg-white dark:bg-[#1E1E1E] p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-200">
       <div className="mb-3">
-        <h3 className="text-base font-medium mb-1 dark:text-white">
+        <h3 className="text-base font-medium mb-1 dark:text-white flex items-center">
+          <FileText className="h-5 w-5 mr-2 text-primary" />
           Text Input
         </h3>
         <p className="text-gray-500 dark:text-gray-400 text-sm">
-          Paste or type your learning material below. We'll generate quiz
-          questions based on this content.
+          Enter a topic (e.g., "JavaScript") or paste your learning material
+          below. We'll generate quiz questions based on this content.
         </p>
       </div>
 

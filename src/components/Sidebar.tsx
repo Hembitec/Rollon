@@ -11,7 +11,8 @@ import {
   Menu,
   BookOpen as Logo,
   ChevronLeft,
-  Brain,
+  Sparkles,
+  MessageSquare,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -64,7 +65,12 @@ const Sidebar = ({
     {
       name: "AI Tutor",
       path: "/ai-tutor",
-      icon: <Brain className="h-5 w-5" />,
+      icon: <Sparkles className="h-5 w-5" />,
+    },
+    {
+      name: "Chat with PDF",
+      path: "/chat-pdf",
+      icon: <MessageSquare className="h-5 w-5" />,
     },
     { name: "Profile", path: "/profile", icon: <User className="h-5 w-5" /> },
   ];
@@ -124,7 +130,7 @@ const Sidebar = ({
         </div>
 
         <div className="p-4">
-          <nav className="space-y-1">
+          <nav className="space-y-0.5">
             {menuItems.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -132,7 +138,7 @@ const Sidebar = ({
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "flex items-center px-2 py-3 text-sm font-medium rounded-md transition-colors",
+                    "flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors",
                     isActive
                       ? "bg-primary/10 text-primary"
                       : "text-gray-600 hover:bg-gray-100",
@@ -155,20 +161,20 @@ const Sidebar = ({
           </nav>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="absolute bottom-0 left-0 right-0 p-2 border-t border-gray-200 dark:border-gray-700">
           {!collapsed && (
-            <div className="flex items-center gap-3 py-2 mb-4">
-              <Avatar>
+            <div className="flex items-center gap-2 py-1 mb-1">
+              <Avatar className="h-7 w-7">
                 {userAvatar ? (
                   <AvatarImage src={userAvatar} alt={userName} />
                 ) : (
-                  <AvatarFallback className="bg-primary/10 text-primary">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
                     {userName.substring(0, 2).toUpperCase()}
                   </AvatarFallback>
                 )}
               </Avatar>
               <div>
-                <h3 className="font-medium">{userName}</h3>
+                <h3 className="font-medium text-sm">{userName}</h3>
                 <p className="text-xs text-gray-500">Pro Plan</p>
               </div>
             </div>
@@ -176,7 +182,7 @@ const Sidebar = ({
           <button
             onClick={handleLogout}
             className={cn(
-              "flex items-center px-2 py-3 text-sm font-medium rounded-md transition-colors w-full text-gray-600 hover:bg-gray-100",
+              "flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors w-full text-gray-600 hover:bg-gray-100",
               collapsed ? "justify-center" : "justify-start",
             )}
             title={collapsed ? "Sign Out" : ""}

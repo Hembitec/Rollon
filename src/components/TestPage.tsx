@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -10,7 +10,8 @@ import {
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Progress } from "./ui/progress";
 import { Label } from "./ui/label";
-import { CheckCircle2, XCircle, Clock, AlertCircle } from "lucide-react";
+import { CheckCircle2, XCircle, Clock, AlertCircle, Save } from "lucide-react";
+import { saveQuizResult } from "@/lib/quiz";
 
 interface Question {
   id: string;
@@ -27,6 +28,20 @@ const TestPage = () => {
   const [showResults, setShowResults] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(600); // 10 minutes in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(true);
+
+  // Timer effect
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isTimerRunning && timeRemaining > 0) {
+      timer = setInterval(() => {
+        setTimeRemaining((prev) => prev - 1);
+      }, 1000);
+    } else if (timeRemaining === 0) {
+      setShowResults(true);
+      setIsTimerRunning(false);
+    }
+    return () => clearInterval(timer);
+  }, [isTimerRunning, timeRemaining]);
 
   // Get questions from localStorage or use mock data
   const getQuestions = (): Question[] => {
@@ -164,6 +179,33 @@ const TestPage = () => {
     setShowResults(false);
     setTimeRemaining(600);
     setIsTimerRunning(true);
+  };
+
+  // Save quiz results
+  const handleSaveResults = async () => {
+    try {
+      // Get the current quiz
+      const savedQuiz = localStorage.getItem("generatedQuiz");
+      if (!savedQuiz) return;
+
+      // Get the quiz ID if available
+      const quizId = localStorage.getItem("currentQuizId") || "current";
+
+      // Save the results to the user's history
+      await saveQuizResult({
+        quizId,
+        score: results.score,
+        correctAnswers: results.correctAnswers,
+        totalQuestions: results.totalQuestions,
+        answers: selectedAnswers,
+        completedAt: new Date().toISOString(),
+      });
+
+      alert("Results saved successfully!");
+    } catch (error) {
+      console.error("Error saving results:", error);
+      alert("Failed to save results. Please try again.");
+    }
   };
 
   // Current question
@@ -322,7 +364,10 @@ const TestPage = () => {
               <Button variant="outline" onClick={handleRestartQuiz}>
                 Restart Quiz
               </Button>
-              <Button>Save Results</Button>
+              <Button onClick={handleSaveResults}>
+                <Save className="h-4 w-4 mr-2" />
+                Save Results
+              </Button>
             </CardFooter>
           </Card>
         </div>

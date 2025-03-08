@@ -86,6 +86,20 @@ const FileUpload = ({
     setUploadProgress(0);
     setIsUploaded(false);
 
+    // For text files, try to read the content
+    if (file.type === "text/plain") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        // Pass both the file and its content
+        onFileSelect(file);
+      };
+      reader.onerror = () => {
+        console.error("Error reading file");
+      };
+      reader.readAsText(file);
+    }
+
     // Simulate upload progress
     const interval = setInterval(() => {
       setUploadProgress((prev) => {

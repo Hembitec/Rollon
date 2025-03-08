@@ -1,30 +1,53 @@
-# React + TypeScript + Vite
+# Rollon - AI-Powered Quiz Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Rollon is an AI-powered web application that transforms any learning material into personalized test questions, acting as a private tutor. Users can upload text, paste content, or provide links, and the AI will generate quizzes tailored to their learning needs.
 
-Currently, two official plugins are available:
+## Setup Instructions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Environment Variables
 
-## Expanding the ESLint configuration
+Create a `.env` file in the root directory with the following variables:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+```
+# OpenRouter API Key
+VITE_OPENROUTER_API_KEY=your_openrouter_api_key_here
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Supabase Setup
+
+1. Create a new Supabase project
+2. Run the SQL script in `supabase/schema.sql` to set up the database schema
+3. Update the `.env` file with your Supabase URL and anon key
+
+### OpenRouter Setup
+
+1. Create an account at [OpenRouter](https://openrouter.ai/)
+2. Generate an API key
+3. Update the `.env` file with your OpenRouter API key
+
+### Installation
+
+```bash
+npm install
+npm run dev
+```
+
+## Features
+
+- AI-powered quiz generation from text, files, or URLs
+- Customizable quiz settings (difficulty, format, length)
+- Save quizzes to your account
+- Take quizzes and track your progress
+- Download quizzes as PDF
+
+## Technologies Used
+
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- Supabase (Authentication & Database)
+- OpenRouter API (AI Integration)

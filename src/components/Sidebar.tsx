@@ -72,7 +72,6 @@ const Sidebar = ({
       path: "/chat-pdf",
       icon: <MessageSquare className="h-5 w-5" />,
     },
-    { name: "Profile", path: "/profile", icon: <User className="h-5 w-5" /> },
   ];
 
   const handleLogout = async () => {
@@ -162,8 +161,27 @@ const Sidebar = ({
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 p-2 border-t border-gray-200 dark:border-gray-700">
+          {collapsed && (
+            <Link
+              to="/profile"
+              className="flex justify-center items-center mb-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md p-2 transition-colors"
+            >
+              <Avatar className="h-7 w-7">
+                {userAvatar ? (
+                  <AvatarImage src={userAvatar} alt={userName} />
+                ) : (
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                    {userName.substring(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+            </Link>
+          )}
           {!collapsed && (
-            <div className="flex items-center gap-2 py-1 mb-1">
+            <Link
+              to="/profile"
+              className="flex items-center gap-2 py-1 mb-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-2 transition-colors"
+            >
               <Avatar className="h-7 w-7">
                 {userAvatar ? (
                   <AvatarImage src={userAvatar} alt={userName} />
@@ -177,7 +195,7 @@ const Sidebar = ({
                 <h3 className="font-medium text-sm">{userName}</h3>
                 <p className="text-xs text-gray-500">Pro Plan</p>
               </div>
-            </div>
+            </Link>
           )}
           <button
             onClick={handleLogout}

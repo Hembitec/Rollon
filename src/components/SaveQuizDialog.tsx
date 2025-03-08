@@ -12,13 +12,23 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { Save, X } from "lucide-react";
+import { Save, X, AlertCircle } from "lucide-react";
+import { saveQuiz } from "@/lib/quiz";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 
 interface SaveQuizDialogProps {
   trigger?: React.ReactNode;
   onSave?: (data: { title: string; description: string }) => void;
   defaultTitle?: string;
   defaultDescription?: string;
+  questions?: any[];
+  settings?: {
+    difficulty: string;
+    questionFormat: string;
+    quizLength: number;
+  };
+  content?: string;
 }
 
 const SaveQuizDialog = ({
@@ -26,23 +36,52 @@ const SaveQuizDialog = ({
   onSave = () => {},
   defaultTitle = "",
   defaultDescription = "",
+  questions = [],
+  settings = {
+    difficulty: "medium",
+    questionFormat: "multiple-choice",
+    quizLength: 10,
+  },
+  content = "",
 }: SaveQuizDialogProps) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(defaultTitle);
   const [description, setDescription] = useState(defaultDescription);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSave = async () => {
     if (!title.trim()) return;
 
     setIsSaving(true);
+    setError(null);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      // Check if user is authenticated
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) {
+        setError("You must be logged in to save quizzes");
+        return;
+      }
+
+      // Save quiz to Supabase
+      await saveQuiz({
+        title,
+        description,
+        questions,
+        difficulty: settings.difficulty,
+        questionFormat: settings.questionFormat,
+        quizLength: settings.quizLength,
+        content,
+      });
 
       onSave({ title, description });
       setOpen(false);
+      navigate("/saved");
+    } catch (err: any) {
+      console.error("Error saving quiz:", err);
+      setError(err.message || "Failed to save quiz. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -85,6 +124,13 @@ const SaveQuizDialog = ({
               rows={3}
             />
           </div>
+
+          {error && (
+            <div className="bg-red-50 text-red-600 p-3 rounded-md flex items-start text-sm">
+              <AlertCircle className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
         </div>
         <DialogFooter className="sm:justify-between">
           <Button

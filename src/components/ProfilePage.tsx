@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
@@ -38,6 +38,25 @@ const ProfilePage = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [userData, setUserData] = useState<any>(null);
+  const [accountCreated, setAccountCreated] = useState<string>("");
+
+  // Fetch user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        if (data.user) {
+          setUserData(data.user);
+          setAccountCreated(data.user.created_at || "");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleThemeChange = (value: "light" | "dark" | "system") => {
     setTheme(value);
@@ -98,11 +117,29 @@ const ProfilePage = () => {
               <CardContent className="pt-6">
                 <div className="flex flex-col items-center">
                   <Avatar className="h-24 w-24 mb-4">
-                    <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" />
-                    <AvatarFallback>JD</AvatarFallback>
+                    <AvatarImage
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.user_metadata?.full_name || userData?.email || "User"}`}
+                    />
+                    <AvatarFallback>
+                      {userData?.user_metadata?.full_name
+                        ? userData.user_metadata.full_name
+                            .split(" ")
+                            .map((n: string) => n[0])
+                            .join("")
+                            .toUpperCase()
+                        : userData?.email
+                          ? userData.email.substring(0, 2).toUpperCase()
+                          : "U"}
+                    </AvatarFallback>
                   </Avatar>
-                  <h2 className="text-xl font-bold">John Doe</h2>
-                  <p className="text-sm text-gray-500">john.doe@example.com</p>
+                  <h2 className="text-xl font-bold">
+                    {userData?.user_metadata?.full_name ||
+                      userData?.email?.split("@")[0] ||
+                      "User"}
+                  </h2>
+                  <p className="text-sm text-gray-500">
+                    {userData?.email || ""}
+                  </p>
                   <div className="mt-4 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
                     Pro Plan
                   </div>
@@ -112,7 +149,15 @@ const ProfilePage = () => {
 
                 <div className="space-y-1">
                   <h3 className="text-sm font-medium">Account created</h3>
-                  <p className="text-sm text-gray-500">January 12, 2023</p>
+                  <p className="text-sm text-gray-500">
+                    {accountCreated
+                      ? new Date(accountCreated).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "Loading..."}
+                  </p>
                 </div>
               </CardContent>
             </Card>

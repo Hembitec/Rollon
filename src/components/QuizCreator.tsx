@@ -14,6 +14,7 @@ import {
   generateQuizFromFile,
   generateQuizFromUrl,
 } from "@/lib/openrouter";
+import { saveQuiz } from "@/lib/quiz";
 
 interface QuizCreatorProps {
   onQuizGenerate?: (data: {
@@ -120,49 +121,18 @@ const QuizCreator = ({ onQuizGenerate = () => {} }: QuizCreatorProps) => {
           const url = urlMatch ? urlMatch[1] : "";
           generatedQuiz = await generateQuizFromUrl(url, content, quizSettings);
         }
+
+        console.log("Generated quiz:", generatedQuiz);
       } catch (apiError) {
         console.error("API error:", apiError);
-        // Fallback to default questions if API fails
-        generatedQuiz = [
-          {
-            question: "What is the main purpose of React?",
-            options: [
-              "To create server-side applications",
-              "To create user interfaces",
-              "To manage databases",
-              "To handle network requests",
-            ],
-            correctAnswer: "To create user interfaces",
-            explanation:
-              "React is a JavaScript library for building user interfaces.",
-          },
-          {
-            question:
-              "Which hook is used to manage state in functional components?",
-            options: ["useEffect", "useState", "useContext", "useReducer"],
-            correctAnswer: "useState",
-            explanation:
-              "useState is the hook used for adding React state to functional components.",
-          },
-        ];
+        throw apiError;
       }
 
       // Ensure we have a valid quiz object
       if (!generatedQuiz || !Array.isArray(generatedQuiz)) {
-        generatedQuiz = [
-          {
-            question: "What is the main purpose of React?",
-            options: [
-              "To create server-side applications",
-              "To create user interfaces",
-              "To manage databases",
-              "To handle network requests",
-            ],
-            correctAnswer: "To create user interfaces",
-            explanation:
-              "React is a JavaScript library for building user interfaces.",
-          },
-        ];
+        throw new Error(
+          "Failed to generate valid quiz questions. Please try again.",
+        );
       }
 
       // Store the generated quiz in localStorage for later use
@@ -181,17 +151,38 @@ const QuizCreator = ({ onQuizGenerate = () => {} }: QuizCreatorProps) => {
     }
   };
 
-  const handleSaveQuiz = (data: { title: string; description: string }) => {
-    // In a real implementation, this would save to a database
-    console.log("Saving quiz:", {
-      title: data.title,
-      description: data.description,
-      content,
-      settings: quizSettings,
-    });
+  const handleSaveQuiz = async (data: {
+    title: string;
+    description: string;
+  }) => {
+    // Get the generated quiz from localStorage
+    const generatedQuiz = localStorage.getItem("generatedQuiz");
+    if (!generatedQuiz) {
+      console.error("No quiz found to save");
+      return;
+    }
 
-    // Navigate to saved quizzes page
-    navigate("/saved");
+    // Parse the quiz questions
+    const questions = JSON.parse(generatedQuiz);
+
+    try {
+      // Save quiz to Supabase using the quiz library function
+      const savedQuiz = await saveQuiz({
+        title: data.title,
+        description: data.description,
+        questions,
+        difficulty: quizSettings.difficulty,
+        questionFormat: quizSettings.questionFormat,
+        quizLength: quizSettings.quizLength,
+        content,
+      });
+
+      console.log("Quiz saved successfully:", savedQuiz);
+      navigate("/saved");
+    } catch (error) {
+      console.error("Error saving quiz:", error);
+      setError("Failed to save quiz. Please try again.");
+    }
   };
 
   const handleTakeQuiz = () => {
@@ -288,6 +279,37 @@ const QuizCreator = ({ onQuizGenerate = () => {} }: QuizCreatorProps) => {
               </p>
             </div>
 
+            {/* Display the generated quiz */}
+            <div className="mb-8 max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
+              <h4 className="text-xl font-semibold mb-4">Preview Your Quiz</h4>
+              <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
+                {JSON.parse(localStorage.getItem("generatedQuiz") || "[]").map(
+                  (question, index) => (
+                    <div
+                      key={index}
+                      className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                    >
+                      <p className="font-medium mb-3">
+                        {index + 1}. {question.question}
+                      </p>
+                      {question.options && (
+                        <div className="ml-4 space-y-2">
+                          {question.options.map((option, optIndex) => (
+                            <div key={optIndex} className="flex items-start">
+                              <div className="w-5 h-5 rounded-full flex items-center justify-center mr-2 mt-0.5 bg-gray-100 text-gray-600">
+                                {String.fromCharCode(97 + optIndex)}
+                              </div>
+                              <p>{option}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ),
+                )}
+              </div>
+            </div>
+
             <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
               <SaveQuizDialog
                 trigger={
@@ -298,6 +320,11 @@ const QuizCreator = ({ onQuizGenerate = () => {} }: QuizCreatorProps) => {
                 }
                 onSave={handleSaveQuiz}
                 defaultTitle={`Quiz on ${activeTab === "file" ? "Uploaded Document" : activeTab === "url" ? "Web Content" : "Text Input"}`}
+                questions={JSON.parse(
+                  localStorage.getItem("generatedQuiz") || "[]",
+                )}
+                settings={quizSettings}
+                content={content}
               />
 
               <Button onClick={handleTakeQuiz}>Take Quiz Now</Button>

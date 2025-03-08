@@ -1,7 +1,9 @@
 // OpenRouter API integration
 
+// Use the API key from environment variables
 const OPENROUTER_API_KEY =
-  "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";
+  import.meta.env.VITE_OPENROUTER_API_KEY ||
+  "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";
 const SITE_URL = window.location.origin;
 const SITE_NAME = "Rollon Quiz Generator";
 
@@ -32,7 +34,7 @@ export async function generateQuizQuestions(
   },
 ) {
   try {
-    const prompt = `Generate a quiz with ${settings.quizLength} ${settings.questionFormat} questions at ${settings.difficulty} difficulty level about the following content:\n\n${content}\n\n${settings.customInstructions ? `Additional instructions: ${settings.customInstructions}` : ""}`;
+    const prompt = `Generate a quiz with ${settings.quizLength} ${settings.questionFormat} questions at ${settings.difficulty} difficulty level about the following content. Make sure the questions are directly related to the content provided and not generic placeholders:\n\n${content}\n\n${settings.customInstructions ? `Additional instructions: ${settings.customInstructions}` : ""}`;
 
     const messages: Message[] = [
       {
@@ -45,6 +47,10 @@ export async function generateQuizQuestions(
       },
     ];
 
+    console.log(
+      "Sending request to OpenRouter with API key:",
+      OPENROUTER_API_KEY.substring(0, 10) + "...",
+    );
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
@@ -56,8 +62,10 @@ export async function generateQuizQuestions(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "anthropic/claude-3-opus:beta",
+          model: "qwen/qwq-32b:free",
           messages: messages,
+          temperature: 0.7,
+          max_tokens: 4000,
         }),
       },
     );
@@ -97,10 +105,18 @@ export async function generateQuizQuestions(
 
     // Try to parse the response as JSON
     try {
+      // Look for JSON array in the content
+      const jsonMatch = generatedContent.match(/\[\s*{.*}\s*\]/s);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+
+      // Try parsing the entire content
       return JSON.parse(generatedContent);
     } catch (e) {
-      // If parsing fails, return the raw text
-      return generatedContent;
+      console.error("Failed to parse JSON response:", e);
+      console.log("Raw content:", generatedContent);
+      throw new Error("Failed to parse quiz questions. Please try again.");
     }
   } catch (error) {
     console.error("Error generating quiz questions:", error);
@@ -132,7 +148,7 @@ export async function generateQuizFromFile(
         content: [
           {
             type: "text",
-            text: `Generate a quiz with ${settings.quizLength} ${settings.questionFormat} questions at ${settings.difficulty} difficulty level based on the content in this document. ${settings.customInstructions ? `Additional instructions: ${settings.customInstructions}` : ""}`,
+            text: `Generate a quiz with ${settings.quizLength} ${settings.questionFormat} questions at ${settings.difficulty} difficulty level based on the content in this document. Make sure the questions are directly related to the content provided and not generic placeholders. ${settings.customInstructions ? `Additional instructions: ${settings.customInstructions}` : ""}`,
           },
           {
             type: "image_url",
@@ -144,6 +160,10 @@ export async function generateQuizFromFile(
       },
     ];
 
+    console.log(
+      "Sending file to OpenRouter with API key:",
+      OPENROUTER_API_KEY.substring(0, 10) + "...",
+    );
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
@@ -155,8 +175,10 @@ export async function generateQuizFromFile(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "qwen/qwen2.5-vl-72b-instruct:free",
+          model: "qwen/qwq-32b:free",
           messages: messages,
+          temperature: 0.7,
+          max_tokens: 4000,
         }),
       },
     );
@@ -196,10 +218,18 @@ export async function generateQuizFromFile(
 
     // Try to parse the response as JSON
     try {
+      // Look for JSON array in the content
+      const jsonMatch = generatedContent.match(/\[\s*{.*}\s*\]/s);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+
+      // Try parsing the entire content
       return JSON.parse(generatedContent);
     } catch (e) {
-      // If parsing fails, return the raw text
-      return generatedContent;
+      console.error("Failed to parse JSON response:", e);
+      console.log("Raw content:", generatedContent);
+      throw new Error("Failed to parse quiz questions. Please try again.");
     }
   } catch (error) {
     console.error("Error generating quiz from file:", error);
@@ -232,6 +262,10 @@ export async function generateQuizFromUrl(
       },
     ];
 
+    console.log(
+      "Sending URL content to OpenRouter with API key:",
+      OPENROUTER_API_KEY.substring(0, 10) + "...",
+    );
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
@@ -243,8 +277,10 @@ export async function generateQuizFromUrl(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "anthropic/claude-3-opus:beta",
+          model: "qwen/qwq-32b:free",
           messages: messages,
+          temperature: 0.7,
+          max_tokens: 4000,
         }),
       },
     );
@@ -284,10 +320,18 @@ export async function generateQuizFromUrl(
 
     // Try to parse the response as JSON
     try {
+      // Look for JSON array in the content
+      const jsonMatch = generatedContent.match(/\[\s*{.*}\s*\]/s);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+
+      // Try parsing the entire content
       return JSON.parse(generatedContent);
     } catch (e) {
-      // If parsing fails, return the raw text
-      return generatedContent;
+      console.error("Failed to parse JSON response:", e);
+      console.log("Raw content:", generatedContent);
+      throw new Error("Failed to parse quiz questions. Please try again.");
     }
   } catch (error) {
     console.error("Error generating quiz from URL:", error);

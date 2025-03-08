@@ -40,24 +40,48 @@ const Navbar = ({
           >
             Home
           </Link>
+          <a
+            href="#features"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              document
+                .getElementById("features")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            Features
+          </a>
+          <a
+            href="#how-it-works"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              document
+                .getElementById("how-it-works")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            How It Works
+          </a>
+          <a
+            href="#testimonials"
+            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              document
+                .getElementById("testimonials")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            Testimonials
+          </a>
           <Link
             to="/about"
             className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
           >
             About
           </Link>
-          <a
-            href="#features"
-            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
-          >
-            Features
-          </a>
-          <a
-            href="#"
-            className="text-sm font-medium text-gray-700 dark:text-[#E0E0E0] hover:text-primary dark:hover:text-[#4A90E2] transition-colors"
-          >
-            Pricing
-          </a>
         </nav>
 
         {/* Auth Buttons or User Menu */}

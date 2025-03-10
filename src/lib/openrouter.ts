@@ -51,27 +51,47 @@ export async function generateQuizQuestions(
       "Sending request to OpenRouter with API key:",
       OPENROUTER_API_KEY.substring(0, 10) + "...",
     );
-    const response = await fetch(
-      "https://openrouter.ai/api/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-          "HTTP-Referer": SITE_URL,
-          "X-Title": SITE_NAME,
-          "Content-Type": "application/json",
+    let response;
+    let retries = 3;
+    let delay = 1000; // Start with 1 second delay
+    
+    while (retries > 0) {
+      response = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+            "HTTP-Referer": SITE_URL,
+            "X-Title": SITE_NAME,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.0-flash-lite-preview-02-05:free", // Specified free model
+            messages: messages,
+            temperature: 0.7,
+            max_tokens: 4000,
+          }),
         },
-        body: JSON.stringify({
-          model: "qwen/qwq-32b:free",
-          messages: messages,
-          temperature: 0.7,
-          max_tokens: 4000,
-        }),
-      },
-    );
+      );
 
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
+      if (response.status === 429) {
+        console.warn(`Rate limited. Retries left: ${retries}. Waiting ${delay}ms`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        delay *= 2; // Exponential backoff
+        retries--;
+        continue;
+      }
+
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      
+      break;
+    }
+
+    if (!response) {
+      throw new Error('Failed to get successful response after 3 retries');
     }
 
     const data: OpenRouterResponse = await response.json();
@@ -175,7 +195,7 @@ export async function generateQuizFromFile(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "qwen/qwq-32b:free",
+          model: "google/gemini-2.0-flash-lite-preview-02-05:free",
           messages: messages,
           temperature: 0.7,
           max_tokens: 4000,
@@ -277,7 +297,7 @@ export async function generateQuizFromUrl(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "qwen/qwq-32b:free",
+          model: "google/gemini-2.0-flash-lite-preview-02-05:free",
           messages: messages,
           temperature: 0.7,
           max_tokens: 4000,

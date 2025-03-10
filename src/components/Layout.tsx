@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Navbar from "./Navbar";
+import { Navigation } from "./Navbar";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { useTheme } from "@/context/ThemeContext";
@@ -26,11 +26,7 @@ const Layout = ({
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#121212] dark:text-[#E0E0E0] transition-colors duration-200">
       {showNavbar && (
-        <Navbar
-          isLoggedIn={isLoggedIn}
-          userName={userName}
-          userAvatar={userAvatar}
-        />
+        <Navigation />
       )}
       <div className="flex">
         {showSidebar && (

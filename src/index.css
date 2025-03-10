@@ -4,67 +4,65 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%; /* #F9FAFB Soft White */
-    --foreground: 215 30% 16%; /* #1F2937 Deep Gray */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 100%; /* #FFFFFF Pure White */
-    --card-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 0 0% 100%; /* #FFFFFF Pure White */
-    --popover-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 213 67% 59%; /* #4A90E2 Bright Blue */
-    --primary-foreground: 0 0% 100%; /* White */
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 38 92% 50%; /* #F59E0B Golden Yellow */
-    --secondary-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 220 14% 91%; /* #E5E7EB */
-    --muted-foreground: 220 9% 46%; /* #6B7280 Dim Gray */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 220 14% 91%; /* #E5E7EB */
-    --accent-foreground: 215 30% 16%; /* #1F2937 Deep Gray */
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 84% 60%; /* #EF4444 Red */
-    --destructive-foreground: 0 0% 100%; /* White */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%; /* #E5E7EB */
-    --input: 220 14% 91%; /* #E5E7EB */
-    --ring: 213 67% 59%; /* #4A90E2 Bright Blue */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
 
     --radius: 0.5rem;
-
-    --success: 158 64% 40%; /* #10B981 Green */
   }
 
   .dark {
-    --background: 0 0% 7%; /* #121212 Deep Black */
-    --foreground: 0 0% 88%; /* #E0E0E0 Light Gray */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 12%; /* #1E1E1E Dark Gray */
-    --card-foreground: 0 0% 88%; /* #E0E0E0 Light Gray */
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 12%; /* #1E1E1E Dark Gray */
-    --popover-foreground: 0 0% 88%; /* #E0E0E0 Light Gray */
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 212 67% 59%; /* #4A90E2 Bright Blue */
-    --primary-foreground: 0 0% 100%; /* White */
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 39 100% 55%; /* #F5A623 Warm Yellow */
-    --secondary-foreground: 0 0% 100%; /* White */
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 0 0% 17%; /* #2C2C2C */
-    --muted-foreground: 0 0% 46%; /* #757575 Dim Gray */
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 0 0% 17%; /* #2C2C2C */
-    --accent-foreground: 0 0% 88%; /* #E0E0E0 Light Gray */
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 68% 58%; /* #F44336 Red */
-    --destructive-foreground: 0 0% 100%; /* White */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 0 0% 20%; /* #333333 */
-    --input: 0 0% 17%; /* #2C2C2C */
-    --ring: 212 67% 59%; /* #4A90E2 Bright Blue */
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
   }
 }
 
@@ -74,7 +72,24 @@
   }
   body {
     @apply bg-background text-foreground;
-    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  .animation-delay-6000 {
+    animation-delay: 6s;
+  }
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
   }
 }
 
@@ -94,13 +109,5 @@
 }
 
 .animate-blob {
-  animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
+  animation: blob 15s infinite;
 }
